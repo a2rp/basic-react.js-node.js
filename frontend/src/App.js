@@ -30,6 +30,7 @@ const App = () => {
             });
         } catch (error) {
             // console.log(error, "getbackendmessage error");
+            setIsLoading(false);
             toast.error(error.message);
         } finally {
         }
