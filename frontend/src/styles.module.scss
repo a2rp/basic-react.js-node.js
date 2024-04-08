@@ -1,0 +1,17 @@
+.container {
+    border: 1px solid #f00;
+    padding: 30px;
+
+    .serverButton {
+        padding: 5px 20px 5px 20px;
+    }
+
+    .serverMessage {
+        margin-top: 30px;
+        font-size: 32px;
+
+        .data {
+            font-size: 32px;
+        }
+    }
+}
