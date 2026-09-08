@@ -1,3 +1,13 @@
-### get a2rp
-GET http://localhost:1198/api/a2rp
+@baseUrl = http://localhost:1198
 
+### API status
+GET {{baseUrl}}/
+
+### Health
+GET {{baseUrl}}/health
+
+### Backend message
+GET {{baseUrl}}/api/a2rp
+
+### Unknown route example
+GET {{baseUrl}}/missing-route

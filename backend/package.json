@@ -1,15 +1,19 @@
 {
-    "name": "backend",
+    "name": "basic-react-js-node-backend",
     "version": "1.0.0",
-    "description": "",
+    "description": "A small Express API used by the basic React and Node.js demo",
     "main": "index.js",
     "scripts": {
         "start": "node index.js",
         "start:dev": "nodemon index.js"
     },
-    "keywords": [],
-    "author": "",
-    "license": "ISC",
+    "keywords": [
+        "nodejs",
+        "express",
+        "react"
+    ],
+    "author": "Ashish Ranjan",
+    "license": "MIT",
     "dependencies": {
         "cors": "^2.8.5",
         "dotenv": "^16.4.5",
