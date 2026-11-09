@@ -1,6 +1,6 @@
 # React and Node.js Message Demo
 
-A small full-stack project that connects a Create React App frontend to a Node.js and Express backend. Click the button in the frontend to request a JSON message from the API.
+A small full-stack project that connects a Vite and React frontend to a Node.js and Express backend. Click the button in the frontend to request a JSON message from the API.
 
 ## Project structure
 
@@ -17,7 +17,7 @@ basic-react.js-node.js/
 
 ## Features
 
-- Create React App frontend with a responsive interface.
+- Vite and React frontend with a responsive interface.
 - Express API with a root status route, health route, and message route.
 - API responses keep `apiUrl` as the first JSON property.
 - Completed API requests are logged with method, URL, status, and duration.
@@ -27,7 +27,7 @@ basic-react.js-node.js/
 
 ## Run locally
 
-Use two terminals from the project root.
+Requires Node.js 20.19 or newer and npm. Use two terminals from the project root.
 
 ### 1. Start the backend
 
@@ -49,7 +49,7 @@ npm install
 npm start
 ```
 
-The CRA development server opens at `http://localhost:3000` and calls `http://localhost:1198/api`.
+The Vite development server opens at `http://localhost:3000` and calls `http://localhost:1198/api`.
 
 ## API routes
 
@@ -66,11 +66,11 @@ Additional request examples are in [`backend/rest.http`](backend/rest.http).
 Backend variables are documented in [`backend/.env.example`](backend/.env.example):
 
 - `PORT` controls the Express server port and defaults to `1198`.
-- `CLIENT_ORIGIN` controls the allowed frontend origin and defaults to `http://localhost:3000`.
+- `CLIENT_ORIGIN` controls the allowed frontend origin list, accepts comma-separated origins, and defaults to `http://localhost:3000`.
 
 The frontend variable in [`frontend/.env.example`](frontend/.env.example) is:
 
-- `REACT_APP_API_BASE_URL` for the backend API base URL.
+- `VITE_API_BASE_URL` for the backend API base URL.
 
 ## Author
 

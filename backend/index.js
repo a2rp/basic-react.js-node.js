@@ -4,12 +4,17 @@ const cors = require("cors");
 const express = require("express");
 
 const app = express();
-const PORT = Number.parseInt(process.env.PORT, 10) || 1198;
-const CLIENT_ORIGIN = process.env.CLIENT_ORIGIN || "http://localhost:3000";
+const PORT = process.env.PORT === undefined ? 1198 : Number(process.env.PORT);
+const CLIENT_ORIGINS = (process.env.CLIENT_ORIGIN || "http://localhost:3000")
+    .split(",")
+    .map((origin) => origin.trim())
+    .filter(Boolean);
+
+if (!Number.isInteger(PORT) || PORT < 1 || PORT > 65535) {
+    throw new Error("PORT must be an integer between 1 and 65535");
+}
 
 app.disable("x-powered-by");
-app.use(cors({ origin: CLIENT_ORIGIN }));
-app.use(express.json());
 
 // Log every completed request so the method, URL, status, and timing are visible.
 app.use((req, res, next) => {
@@ -17,11 +22,19 @@ app.use((req, res, next) => {
 
     res.on("finish", () => {
         const duration = Date.now() - startedAt;
-        console.log(`[API] ${req.method} ${req.originalUrl} -> ${res.statusCode} (${duration}ms)`);
+        console.log(`[API] ${req.method} ${req.path} -> ${res.statusCode} (${duration}ms)`);
     });
 
     next();
 });
+
+app.use(cors({
+    origin(origin, callback) {
+        const isAllowed = !origin || CLIENT_ORIGINS.includes("*") || CLIENT_ORIGINS.includes(origin);
+        callback(null, isAllowed);
+    },
+}));
+app.use(express.json({ limit: "16kb" }));
 
 const sendResponse = (res, statusCode, apiUrl, body) => {
     // Keep apiUrl first in every JSON response so clients can identify the endpoint.
@@ -51,7 +64,7 @@ app.get("/api/a2rp", (req, res) => {
 
 // Return a consistent JSON response when a client calls an unknown route.
 app.use((req, res) => {
-    sendResponse(res, 404, req.originalUrl, {
+    sendResponse(res, 404, req.path, {
         success: false,
         message: "Route not found",
     });
@@ -65,9 +78,20 @@ app.use((error, req, res, next) => {
         return next(error);
     }
 
-    sendResponse(res, 500, req.originalUrl, {
+    const statusCode = error.type === "entity.parse.failed"
+        ? 400
+        : error.type === "entity.too.large"
+            ? 413
+            : 500;
+    const message = statusCode === 400
+        ? "Invalid JSON body"
+        : statusCode === 413
+            ? "Request body too large"
+            : "Internal server error";
+
+    sendResponse(res, statusCode, req.path, {
         success: false,
-        message: "Internal server error",
+        message,
     });
 });
 

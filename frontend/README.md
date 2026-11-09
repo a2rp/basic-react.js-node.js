@@ -1,8 +1,10 @@
 # React and Node.js Message Demo Frontend
 
-This is the Create React App frontend for the repository. It calls the Express backend and displays the response from `GET /api/a2rp`.
+This is the Vite and React frontend for the repository. It calls the Express backend and displays the response from `GET /api/a2rp`.
 
 ## Run
+
+Requires Node.js 20.19 or newer and npm.
 
 ```powershell
 Copy-Item .env.example .env
@@ -14,10 +16,10 @@ The frontend runs at `http://localhost:3000`. The backend should be running at `
 
 ## Configuration
 
-Set `REACT_APP_API_BASE_URL` in `.env` when the backend uses a different URL:
+Set `VITE_API_BASE_URL` in `.env` when the backend uses a different URL:
 
 ```text
-REACT_APP_API_BASE_URL=http://localhost:1198/api
+VITE_API_BASE_URL=http://localhost:1198/api
 ```
 
 ## Build
@@ -26,7 +28,7 @@ REACT_APP_API_BASE_URL=http://localhost:1198/api
 npm run build
 ```
 
-The production files are written to the CRA `build` directory.
+The production files are written to the Vite `dist` directory.
 
 ## Links
 

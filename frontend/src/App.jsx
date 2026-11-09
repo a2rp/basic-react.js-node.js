@@ -1,7 +1,9 @@
 import { useState } from "react";
 import styles from "./styles.module.css";
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || "http://localhost:1198/api";
+const API_BASE_URL = (
+    import.meta.env.VITE_API_BASE_URL || "http://localhost:1198/api"
+).replace(/\/+$/, "");
 
 const App = () => {
     const [requestState, setRequestState] = useState("idle");
@@ -14,11 +16,16 @@ const App = () => {
         setErrorMessage("");
 
         try {
-            // The CRA frontend calls the Express endpoint configured for this environment.
+            // The Vite frontend calls the Express endpoint configured for this environment.
             const response = await fetch(`${API_BASE_URL}/a2rp`, {
                 headers: { Accept: "application/json" },
             });
-            const payload = await response.json();
+            let payload;
+            try {
+                payload = await response.json();
+            } catch {
+                throw new Error("The server returned an invalid JSON response.");
+            }
 
             if (!response.ok) {
                 throw new Error(payload.message || `Request failed with status ${response.status}`);
@@ -38,7 +45,7 @@ const App = () => {
     return (
         <main className={styles.page}>
             <section className={styles.card} aria-labelledby="page-title">
-                <div className={styles.badge}>CRA frontend + Express backend</div>
+                <div className={styles.badge}>Vite frontend + Express backend</div>
                 <p className={styles.eyebrow}>Full-stack starter</p>
                 <h1 id="page-title">Request a message from the server.</h1>
                 <p className={styles.intro}>

@@ -1,6 +1,7 @@
-# Dependencies and CRA output
+# Dependencies and generated frontend output
 **/node_modules/
 **/build/
+**/dist/
 
 # Local configuration
 **/.env
